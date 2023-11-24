@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje jednoduchý e-shop</title>
+</head>
+<body>
+
+<h1>Vitajte v našom e-shope!</h1>
+
+<?php
+    if(isset($_GET['meno']) && $_GET['meno'] === 'Maki') {
+        $meno = $_GET['meno'];
+        echo "<h2>Vitaj, $meno!</h2>";
+echo "<p>Máš $meno bodov!</p>";
+} else {
+echo "<p>Nemáte prístup na túto stránku.</p>";
+}
+?>
+
+<h2>Produkty na zakupenie:</h2>
+
+<ul>
+    <li><a href="kofolka.html">Kofolka</a></li>
+    <li><a href="tricko.html">Tricko</a></li>
+    <li><a href="nozik.html">Nozik</a></li>
+</ul>
+
+</body>
+</html>
