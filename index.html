@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prenos mena na stránku</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Control</title>
 </head>
 <body>
 
-<h1>Vitaj na stránke</h1>
+<h1>Vitaj na e-shope 3.oddielu delfinov</h1>
 
-<form onsubmit="return showName()">
-  <label for="meno">Zadaj svoje meno:</label>
-  <input type="text" id="meno" name="meno" required>
-  <br>
-  <input type="submit" value="Odoslať">
+<form onsubmit="checkAccess(); return false;">
+    <label for="name">Zadaj svoje meno:</label>
+    <input type="text" id="name" required>
+    <label for="password">Zadaj svoje heslo:</label>
+    <input type="password" id="password" required>
+    <button type="submit">Submit</button>
+    <p>Pri akychkolvek otazkach,problemoch alebo ked si chces zalozit heslo kontaktuj Makiho (risko.gavro@gmail.com)</p>
 </form>
 
 <script>
-  function showName() {
-    var meno = document.getElementById("meno").value;
-    alert("Tvoje meno je: " + meno);
-    return false; // zabráni odoslaniu formulára
-  }
+    function checkAccess() {
+        // Define a mapping of names to credentials (password and points)
+        var userCredentials = {
+            'Maki': { password: 'password1' },
+            'Ducky': { password: 'password2' },
+            'Kubo': { password: 'password3' },
+            'David': { password: 'password4'}
+        };
+
+        var enteredName = document.getElementById('name').value.trim();
+        var enteredPassword = document.getElementById('password').value.trim();
+
+        // Check if the entered name and password match the stored credentials
+        if (userCredentials.hasOwnProperty(enteredName) && userCredentials[enteredName].password === enteredPassword) {
+            // Redirect to the welcome page with the entered name and points as parameters
+            var points = userCredentials[enteredName].points;
+            window.location.href = 'welcome.html?name=' + encodeURIComponent(enteredName) + '&points=' + encodeURIComponent(points);
+        } else {
+            alert('Access denied. Incorrect name or password.');
+        }
+    }
 </script>
 
 </body>

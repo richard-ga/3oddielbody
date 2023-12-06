@@ -1,0 +1,34 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Page</title>
+</head>
+<body>
+
+<h1>Nastavenie počiatočných bodov pre používateľa</h1>
+
+<form onsubmit="setInitialPoints(); return false;">
+  <label for="userName">Meno používateľa:</label>
+  <input type="text" id="userName" required>
+  <label for="initialPoints">Počiatočné body:</label>
+  <input type="number" id="initialPoints" required>
+  <button type="submit">Nastaviť</button>
+</form>
+
+<script>
+  function setInitialPoints() {
+    var userName = document.getElementById('userName').value.trim();
+    var initialPoints = parseInt(document.getElementById('initialPoints').value);
+
+    // Ulož počiatočné body do lokálneho úložiska
+    localStorage.setItem(userName, initialPoints.toString());
+
+    alert('Počiatočné body pre používateľa ' + userName + ' boli nastavené na ' + initialPoints + ' bodov.');
+  }
+</script>
+
+</body>
+</html>
