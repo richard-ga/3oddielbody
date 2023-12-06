@@ -1,0 +1,78 @@
+<!-- orders.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Objednávky</title>
+  <style>
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      margin: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Zoznam objednávok</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Meno používateľa</th>
+    <th>Objednaný produkt</th>
+    <th>Počet bodov</th>
+  </tr>
+  </thead>
+  <tbody id="orderTableBody">
+  <!-- Telo tabuľky bude naplnené dynamicky pomocou JavaScriptu -->
+  </tbody>
+</table>
+
+<script>
+  // Funkcia na získanie všetkých objednávok uložených v localStorage
+  function getAllOrders() {
+    var orders = [];
+    for (var i = 0; i < localStorage.length; i++) {
+      var key = localStorage.key(i);
+      if (key !== null && key !== undefined && key !== 'length') {
+        var orderDetails = JSON.parse(localStorage.getItem(key));
+        orders.push({ userName: key, itemName: orderDetails.itemName, points: orderDetails.points });
+      }
+    }
+    return orders;
+  }
+
+  // Funkcia na naplnenie tabuľky s objednávkami
+  function populateOrdersTable() {
+    var orders = getAllOrders();
+    var tableBody = document.getElementById('orderTableBody');
+
+    for (var i = 0; i < orders.length; i++) {
+      var order = orders[i];
+      var row = tableBody.insertRow(-1);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+      cell1.textContent = order.userName;
+      cell2.textContent = order.itemName;
+      cell3.textContent = order.points;
+    }
+  }
+
+  // Volanie funkcie pre naplnenie tabuľky pri načítaní stránky
+  populateOrdersTable();
+</script>
+
+</body>
+</html>

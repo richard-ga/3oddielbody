@@ -72,6 +72,25 @@
         // Pridaj tlačidlo na návrat späť na predchádzajúcu stránku
         document.write('<button onclick="goBack()">Späť</button>');
     }
+    function orderItem(itemName, itemPoints) {
+        if (remainingPoints >= itemPoints) {
+            remainingPoints -= itemPoints;
+
+            // Aktualizuj a ulož počet bodov pre používateľa
+            updateUserPoints(enteredName, remainingPoints);
+
+            // Ulož informácie o objednávke do localStorage
+            var orderDetails = { itemName: itemName, points: itemPoints };
+            localStorage.setItem(enteredName, JSON.stringify(orderDetails));
+
+            document.write('<p>Objednal si si ' + itemName + '. Tvoj zostávajúci počet bodov: ' + remainingPoints + '</p>');
+        } else {
+            document.write('<p>Nemáš dostatok bodov na objednanie ' + itemName + '.</p>');
+        }
+
+        // Pridaj tlačidlo na návrat späť na predchádzajúcu stránku
+        document.write('<button onclick="goBack()">Späť</button>');
+    }
 
     // Funkcia na návrat späť na predchádzajúcu stránku
     function goBack() {
