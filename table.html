@@ -31,6 +31,7 @@
     <th>Username</th>
     <th>Item Name</th>
     <th>Points</th>
+    <th>Fulfilled</th>
   </tr>
   </thead>
   <tbody id="orderHistoryTableBody">
@@ -51,7 +52,15 @@
     var row = document.createElement('tr');
     for (var i = 0; i < data.length; i++) {
       var cell = document.createElement('td');
-      cell.textContent = data[i];
+      if (i === data.length - 1) {
+        // For the last column, add a checkbox
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = data[i];
+        cell.appendChild(checkbox);
+      } else {
+        cell.textContent = data[i];
+      }
       row.appendChild(cell);
     }
     return row;
@@ -70,7 +79,7 @@
 
         for (var j = 0; j < orders.length; j++) {
           var order = orders[j];
-          var rowData = [userName, order.itemName, order.points];
+          var rowData = [userName, order.itemName, order.points, order.fulfilled];
           orderHistoryTableBody.appendChild(createTableRow(rowData));
         }
       }
