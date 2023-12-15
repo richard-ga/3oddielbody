@@ -20,22 +20,14 @@
 
     var enteredName = getParameterByName('name');
 
-    // Funkcia na získanie počtu bodov z lokálneho úložiska
+    // Function to get user points from local storage
     function getUserPoints(name) {
         var storedPoints = localStorage.getItem(name);
         return storedPoints ? parseInt(storedPoints) : 0;
     }
 
-    // Funkcia na aktualizáciu a uloženie počtu bodov do lokálneho úložiska
-    function updateUserPoints(name, newPoints) {
-        localStorage.setItem(name, newPoints.toString());
-    }
-
     // Retrieve the point value for the entered user
     var userPointValue = getUserPoints(enteredName);
-
-    // Set the remaining points to be the same as userPointValue initially
-    var remainingPoints = userPointValue;
 
     document.write('<h1>Vitaj, ' + enteredName + '!</h1>');
     document.write('<p>Tvoj momentálny počet bodov: ' + userPointValue + '</p>');
@@ -58,41 +50,24 @@
     document.write('</ul>');
 
     function orderItem(itemName, itemPoints) {
+        var remainingPoints = getUserPoints(enteredName);
+
         if (remainingPoints >= itemPoints) {
             remainingPoints -= itemPoints;
 
-            // Aktualizuj a ulož počet bodov pre používateľa
-            updateUserPoints(enteredName, remainingPoints);
+            // Update and save user points to local storage
+            localStorage.setItem(enteredName, remainingPoints.toString());
 
             document.write('<p>Objednal si si ' + itemName + '. Tvoj zostávajúci počet bodov: ' + remainingPoints + '</p>');
         } else {
             document.write('<p>Nemáš dostatok bodov na objednanie ' + itemName + '.</p>');
         }
 
-        // Pridaj tlačidlo na návrat späť na predchádzajúcu stránku
-        document.write('<button onclick="goBack()">Späť</button>');
-    }
-    function orderItem(itemName, itemPoints) {
-        if (remainingPoints >= itemPoints) {
-            remainingPoints -= itemPoints;
-
-            // Aktualizuj a ulož počet bodov pre používateľa
-            updateUserPoints(enteredName, remainingPoints);
-
-            // Ulož informácie o objednávke do localStorage
-            var orderDetails = { itemName: itemName, points: itemPoints };
-            localStorage.setItem(enteredName, JSON.stringify(orderDetails));
-
-            document.write('<p>Objednal si si ' + itemName + '. Tvoj zostávajúci počet bodov: ' + remainingPoints + '</p>');
-        } else {
-            document.write('<p>Nemáš dostatok bodov na objednanie ' + itemName + '.</p>');
-        }
-
-        // Pridaj tlačidlo na návrat späť na predchádzajúcu stránku
+        // Add a button to go back to the previous page
         document.write('<button onclick="goBack()">Späť</button>');
     }
 
-    // Funkcia na návrat späť na predchádzajúcu stránku
+    // Function to go back to the previous page
     function goBack() {
         location.reload();
     }
