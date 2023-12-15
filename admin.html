@@ -26,6 +26,16 @@
   <button type="submit">Odstrániť</button>
 </form>
 
+<h1>Odstránenie objednávky pre používateľa</h1>
+
+<form onsubmit="deleteOrder(); return false;">
+  <label for="deleteOrderUserName">Meno používateľa:</label>
+  <input type="text" id="deleteOrderUserName" required>
+  <label for="deletedItemName">Názov objednávky:</label>
+  <input type="text" id="deletedItemName" required>
+  <button type="submit">Odstrániť objednávku</button>
+</form>
+
 <script>
   function setInitialPoints() {
     var userName = document.getElementById('userName').value.trim();
@@ -47,6 +57,30 @@
       alert('Používateľ ' + deleteUserName + ' bol odstránený.');
     } else {
       alert('Používateľ ' + deleteUserName + ' neexistuje.');
+    }
+  }
+
+  function deleteOrder() {
+    var deleteOrderUserName = document.getElementById('deleteOrderUserName').value.trim();
+    var deletedItemName = document.getElementById('deletedItemName').value.trim();
+
+    // Skontroluj, či používateľ existuje v lokálnom úložisku
+    if (localStorage.getItem(deleteOrderUserName) !== null) {
+      var orders = JSON.parse(localStorage.getItem(deleteOrderUserName + '_history'));
+
+      // Nájdi a odstráň objednávku zo záznamu histórie
+      for (var i = 0; i < orders.length; i++) {
+        if (orders[i].itemName === deletedItemName) {
+          orders.splice(i, 1);
+          localStorage.setItem(deleteOrderUserName + '_history', JSON.stringify(orders));
+          alert('Objednávka ' + deletedItemName + ' pre používateľa ' + deleteOrderUserName + ' bola odstránená.');
+          return;
+        }
+      }
+
+      alert('Objednávka ' + deletedItemName + ' pre používateľa ' + deleteOrderUserName + ' nebola nájdená.');
+    } else {
+      alert('Používateľ ' + deleteOrderUserName + ' neexistuje.');
     }
   }
 </script>
