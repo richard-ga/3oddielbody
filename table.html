@@ -29,12 +29,10 @@
   <thead>
   <tr>
     <th>Username</th>
-    <th>Order ID</th>
     <th>Item Name</th>
     <th>Points</th>
     <th>Objednaná</th>
     <th>Fulfilled</th>
-    <th>Delete</th>
   </tr>
   </thead>
   <tbody id="orderHistoryTableBody">
@@ -43,11 +41,6 @@
 </table>
 
 <script>
-  // Function to generate a unique order ID
-  function generateOrderID() {
-    return '_' + Math.random().toString(36).substr(2, 9);
-  }
-
   // Function to get order history from local storage
   function getOrderHistory(userName) {
     var orderHistoryKey = userName + '_history';
@@ -60,11 +53,8 @@
     var row = document.createElement('tr');
     for (var i = 0; i < data.length; i++) {
       var cell = document.createElement('td');
-      if (i === 1) {
-        // For the "Order ID" column, display the unique order ID
-        cell.textContent = data[i];
-      } else if (i === data.length - 3) {
-        // For the third-to-last column, add a checkbox for "Objednaná"
+      if (i === data.length - 2) {
+        // For the second-to-last column, add a checkbox for "Objednaná"
         var orderedCheckbox = document.createElement('input');
         orderedCheckbox.type = 'checkbox';
         orderedCheckbox.checked = data[i] === 1;
@@ -76,8 +66,8 @@
           localStorage.setItem(userName + '_history', JSON.stringify(orders));
         });
         cell.appendChild(orderedCheckbox);
-      } else if (i === data.length - 2) {
-        // For the second-to-last column, add a checkbox for "Fulfilled"
+      } else if (i === data.length - 1) {
+        // For the last column, add a checkbox for "Fulfilled"
         var fulfilledCheckbox = document.createElement('input');
         fulfilledCheckbox.type = 'checkbox';
         fulfilledCheckbox.checked = data[i];
@@ -89,37 +79,12 @@
           localStorage.setItem(userName + '_history', JSON.stringify(orders));
         });
         cell.appendChild(fulfilledCheckbox);
-      } else if (i === data.length - 1) {
-        // For the last column, add a button to delete the order
-        var deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', function () {
-          deleteOrder(userName, data[1]);
-        });
-        cell.appendChild(deleteButton);
       } else {
         cell.textContent = data[i];
       }
       row.appendChild(cell);
     }
     return row;
-  }
-
-  // Function to delete an order
-  function deleteOrder(userName, orderID) {
-    var orders = getOrderHistory(userName);
-
-    // Find and remove the order from the history
-    var index = orders.findIndex(order => order.orderID === orderID);
-    if (index !== -1) {
-      orders.splice(index, 1);
-      localStorage.setItem(userName + '_history', JSON.stringify(orders));
-      alert('Objednávka s ID ' + orderID + ' pre používateľa ' + userName + ' bola odstránená.');
-      // Refresh the table
-      populateOrderHistoryTable();
-    } else {
-      alert('Objednávka s ID ' + orderID + ' pre používateľa ' + userName + ' nebola nájdená.');
-    }
   }
 
   // Function to populate the order history table
@@ -136,7 +101,7 @@
 
         for (var j = 0; j < orders.length; j++) {
           var order = orders[j];
-          var rowData = [userName, order.orderID, order.itemName, order.points, order.ordered, order.fulfilled];
+          var rowData = [userName, order.itemName, order.points, order.ordered, order.fulfilled];
           orderHistoryTableBody.appendChild(createTableRow(rowData, j));
         }
       }
