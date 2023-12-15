@@ -44,9 +44,15 @@
     var orders = [];
     for (var i = 0; i < localStorage.length; i++) {
       var key = localStorage.key(i);
-      if (key !== null && key !== undefined && key !== 'length') {
-        var orderDetails = JSON.parse(localStorage.getItem(key));
-        orders.push({ userName: key, itemName: orderDetails.itemName, points: orderDetails.points });
+      if (key && key !== 'length') {
+        try {
+          var orderDetails = JSON.parse(localStorage.getItem(key));
+          if (orderDetails && orderDetails.itemName && orderDetails.points) {
+            orders.push({ userName: key, itemName: orderDetails.itemName, points: orderDetails.points });
+          }
+        } catch (error) {
+          console.error('Chyba pri dekódovaní objednávky pre používateľa ' + key + ': ' + error.message);
+        }
       }
     }
     return orders;
