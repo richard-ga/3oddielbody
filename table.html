@@ -31,6 +31,7 @@
     <th>Username</th>
     <th>Item Name</th>
     <th>Points</th>
+    <th>Objednaná</th>
     <th>Fulfilled</th>
   </tr>
   </thead>
@@ -52,19 +53,32 @@
     var row = document.createElement('tr');
     for (var i = 0; i < data.length; i++) {
       var cell = document.createElement('td');
-      if (i === data.length - 1) {
-        // For the last column, add a checkbox
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.checked = data[i];
-        checkbox.addEventListener('change', function () {
-          // Save the state of the checkbox to localStorage
+      if (i === data.length - 2) {
+        // For the second-to-last column, add a checkbox for "Objednaná"
+        var orderedCheckbox = document.createElement('input');
+        orderedCheckbox.type = 'checkbox';
+        orderedCheckbox.checked = data[i] === 1;
+        orderedCheckbox.addEventListener('change', function () {
+          // Save the state of the "Objednaná" checkbox to localStorage
           var userName = document.getElementById('orderHistoryTableBody').rows[rowIndex].cells[0].textContent;
           var orders = getOrderHistory(userName);
-          orders[rowIndex].fulfilled = checkbox.checked;
+          orders[rowIndex].ordered = orderedCheckbox.checked ? 1 : 0;
           localStorage.setItem(userName + '_history', JSON.stringify(orders));
         });
-        cell.appendChild(checkbox);
+        cell.appendChild(orderedCheckbox);
+      } else if (i === data.length - 1) {
+        // For the last column, add a checkbox for "Fulfilled"
+        var fulfilledCheckbox = document.createElement('input');
+        fulfilledCheckbox.type = 'checkbox';
+        fulfilledCheckbox.checked = data[i];
+        fulfilledCheckbox.addEventListener('change', function () {
+          // Save the state of the "Fulfilled" checkbox to localStorage
+          var userName = document.getElementById('orderHistoryTableBody').rows[rowIndex].cells[0].textContent;
+          var orders = getOrderHistory(userName);
+          orders[rowIndex].fulfilled = fulfilledCheckbox.checked;
+          localStorage.setItem(userName + '_history', JSON.stringify(orders));
+        });
+        cell.appendChild(fulfilledCheckbox);
       } else {
         cell.textContent = data[i];
       }
@@ -86,7 +100,7 @@
 
         for (var j = 0; j < orders.length; j++) {
           var order = orders[j];
-          var rowData = [userName, order.itemName, order.points, order.fulfilled];
+          var rowData = [userName, order.itemName, order.points, order.ordered, order.fulfilled];
           orderHistoryTableBody.appendChild(createTableRow(rowData, j));
         }
       }
