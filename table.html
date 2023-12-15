@@ -48,7 +48,7 @@
   }
 
   // Function to create table rows
-  function createTableRow(data) {
+  function createTableRow(data, rowIndex) {
     var row = document.createElement('tr');
     for (var i = 0; i < data.length; i++) {
       var cell = document.createElement('td');
@@ -57,6 +57,13 @@
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.checked = data[i];
+        checkbox.addEventListener('change', function () {
+          // Save the state of the checkbox to localStorage
+          var userName = document.getElementById('orderHistoryTableBody').rows[rowIndex].cells[0].textContent;
+          var orders = getOrderHistory(userName);
+          orders[rowIndex].fulfilled = checkbox.checked;
+          localStorage.setItem(userName + '_history', JSON.stringify(orders));
+        });
         cell.appendChild(checkbox);
       } else {
         cell.textContent = data[i];
@@ -80,7 +87,7 @@
         for (var j = 0; j < orders.length; j++) {
           var order = orders[j];
           var rowData = [userName, order.itemName, order.points, order.fulfilled];
-          orderHistoryTableBody.appendChild(createTableRow(rowData));
+          orderHistoryTableBody.appendChild(createTableRow(rowData, j));
         }
       }
     }
