@@ -18,6 +18,14 @@
   <button type="submit">Nastaviť</button>
 </form>
 
+<h1>Odstránenie používateľa</h1>
+
+<form onsubmit="deleteUser(); return false;">
+  <label for="deleteUserName">Meno používateľa:</label>
+  <input type="text" id="deleteUserName" required>
+  <button type="submit">Odstrániť</button>
+</form>
+
 <script>
   function setInitialPoints() {
     var userName = document.getElementById('userName').value.trim();
@@ -27,6 +35,19 @@
     localStorage.setItem(userName, initialPoints.toString());
 
     alert('Počiatočné body pre používateľa ' + userName + ' boli nastavené na ' + initialPoints + ' bodov.');
+  }
+
+  function deleteUser() {
+    var deleteUserName = document.getElementById('deleteUserName').value.trim();
+
+    // Skontroluj, či používateľ existuje v lokálnom úložisku
+    if (localStorage.getItem(deleteUserName) !== null) {
+      // Odstráň používateľa z lokálneho úložiska
+      localStorage.removeItem(deleteUserName);
+      alert('Používateľ ' + deleteUserName + ' bol odstránený.');
+    } else {
+      alert('Používateľ ' + deleteUserName + ' neexistuje.');
+    }
   }
 </script>
 
