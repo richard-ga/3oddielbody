@@ -1,0 +1,63 @@
+<!-- leaderboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard</title>
+</head>
+<body>
+
+<h1>Leaderboard</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Username</th>
+    <th>Points</th>
+  </tr>
+  </thead>
+  <tbody id="leaderboardTableBody">
+  <!-- Table body will be filled dynamically using JavaScript -->
+  </tbody>
+</table>
+
+<script>
+  // Function to get user points from local storage
+  function getUserPoints(name) {
+    var storedPoints = localStorage.getItem(name);
+    return storedPoints ? parseInt(storedPoints) : 0;
+  }
+
+  // Function to create table rows
+  function createTableRow(data) {
+    var row = document.createElement('tr');
+    for (var i = 0; i < data.length; i++) {
+      var cell = document.createElement('td');
+      cell.textContent = data[i];
+      row.appendChild(cell);
+    }
+    return row;
+  }
+
+  // Function to populate the leaderboard table
+  function populateLeaderboardTable() {
+    var leaderboardTableBody = document.getElementById('leaderboardTableBody');
+
+    // Iterate through all items in local storage
+    for (var i = 0; i < localStorage.length; i++) {
+      var key = localStorage.key(i);
+      if (key !== null && key !== undefined && key !== 'length') {
+        var points = getUserPoints(key);
+        var rowData = [key, points];
+        leaderboardTableBody.appendChild(createTableRow(rowData));
+      }
+    }
+  }
+
+  // Call the function to populate the leaderboard table on page load
+  populateLeaderboardTable();
+</script>
+
+</body>
+</html>
