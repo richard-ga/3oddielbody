@@ -1,10 +1,10 @@
-<!-- orders.html -->
+<!-- table.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Objednávky</title>
+  <title>Order History</title>
   <style>
     table {
       width: 80%;
@@ -23,61 +23,62 @@
 </head>
 <body>
 
-<h1>Zoznam objednávok</h1>
+<h1>Order History</h1>
 
 <table>
   <thead>
   <tr>
-    <th>Meno používateľa</th>
-    <th>Objednaný produkt</th>
-    <th>Počet bodov</th>
+    <th>Username</th>
+    <th>Item Name</th>
+    <th>Points</th>
   </tr>
   </thead>
-  <tbody id="orderTableBody">
-  <!-- Telo tabuľky bude naplnené dynamicky pomocou JavaScriptu -->
+  <tbody id="orderHistoryTableBody">
+  <!-- Table body will be filled dynamically using JavaScript -->
   </tbody>
 </table>
 
 <script>
-  // Funkcia na získanie všetkých objednávok uložených v localStorage
-  function getAllOrders() {
-    var orders = [];
+  // Function to get order history from local storage
+  function getOrderHistory(userName) {
+    var orderHistoryKey = userName + '_history';
+    var storedHistory = localStorage.getItem(orderHistoryKey);
+    return storedHistory ? JSON.parse(storedHistory) : [];
+  }
+
+  // Function to create table rows
+  function createTableRow(data) {
+    var row = document.createElement('tr');
+    for (var i = 0; i < data.length; i++) {
+      var cell = document.createElement('td');
+      cell.textContent = data[i];
+      row.appendChild(cell);
+    }
+    return row;
+  }
+
+  // Function to populate the order history table
+  function populateOrderHistoryTable() {
+    var orderHistoryTableBody = document.getElementById('orderHistoryTableBody');
+
+    // Iterate through all items in local storage
     for (var i = 0; i < localStorage.length; i++) {
       var key = localStorage.key(i);
-      if (key && key !== 'length') {
-        try {
-          var orderDetails = JSON.parse(localStorage.getItem(key));
-          if (orderDetails && orderDetails.itemName && orderDetails.points) {
-            orders.push({ userName: key, itemName: orderDetails.itemName, points: orderDetails.points });
-          }
-        } catch (error) {
-          console.error('Chyba pri dekódovaní objednávky pre používateľa ' + key + ': ' + error.message);
+      if (key && key !== 'length' && key.endsWith('_history')) {
+        var userName = key.replace('_history', '');
+        var orders = getOrderHistory(userName);
+
+        for (var j = 0; j < orders.length; j++) {
+          var order = orders[j];
+          var rowData = [userName, order.itemName, order.points];
+          orderHistoryTableBody.appendChild(createTableRow(rowData));
         }
       }
     }
-    return orders;
   }
 
-  // Funkcia na naplnenie tabuľky s objednávkami
-  function populateOrdersTable() {
-    var orders = getAllOrders();
-    var tableBody = document.getElementById('orderTableBody');
-
-    for (var i = 0; i < orders.length; i++) {
-      var order = orders[i];
-      var row = tableBody.insertRow(-1);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-
-      cell1.textContent = order.userName;
-      cell2.textContent = order.itemName;
-      cell3.textContent = order.points;
-    }
-  }
-
-  // Volanie funkcie pre naplnenie tabuľky pri načítaní stránky
-  populateOrdersTable();
+  // Call the function to populate the order history table on page load
+  populateOrderHistoryTable();
 </script>
 
 </body>

@@ -66,6 +66,9 @@
             // Update and save user points to local storage
             localStorage.setItem(enteredName, remainingPoints.toString());
 
+            // Save the order to order history
+            saveOrderToHistory(enteredName, itemName, itemPoints);
+
             document.write('<p>Objednal si si ' + itemName + '. Tvoj zostávajúci počet bodov: ' + remainingPoints + '</p>');
         } else {
             document.write('<p>Nemáš dostatok bodov na objednanie ' + itemName + '.</p>');
@@ -78,6 +81,21 @@
     // Function to go back to the previous page
     function goBack() {
         location.reload();
+    }
+
+    // Function to save order to order history
+    function saveOrderToHistory(userName, itemName, itemPoints) {
+        var orderHistoryKey = userName + '_history';
+        var orderHistory = getOrderHistory(userName);
+        orderHistory.push({ itemName: itemName, points: itemPoints });
+        localStorage.setItem(orderHistoryKey, JSON.stringify(orderHistory));
+    }
+
+    // Function to get order history
+    function getOrderHistory(userName) {
+        var orderHistoryKey = userName + '_history';
+        var storedHistory = localStorage.getItem(orderHistoryKey);
+        return storedHistory ? JSON.parse(storedHistory) : [];
     }
 </script>
 
