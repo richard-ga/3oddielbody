@@ -20,54 +20,57 @@
 
 <script>
     function checkAccess() {
+        // Define a common password for all names
+        var commonPassword = 'admin';
+
         // Define a mapping of names to credentials (password and points)
         var userCredentials = {
-                'MartinN': { password: 'password1' },
-                'Steell': { password: 'password2' },
-                'PatrikH': { password: 'password3' },
-                'RichardB': { password: 'password4' },
-                'RisoF': { password: 'password5' },
-                'KristianA': { password: 'password6' },
-                'TobiasM': { password: 'password7' },
-                'Ricci': { password: 'password8' },
-                'TomasD': { password: 'password9' },
-                'MichalP': { password: 'password10' },
-                'Kubo': { password: 'password11' },
-                'Many': { password: 'password12' },
-                'SimonM': { password: 'password13' },
-                'Fredo': { password: 'password14' },
-                'SimonS': { password: 'password15' },
-                'Pigi': { password: 'password16' },
-                'Samo': { password: 'password17' },
-                'LG': { password: 'password18' },
-                'Smok': { password: 'password19' },
-                'FilipV': { password: 'password20' },
-                'Vojto': { password: 'password21' },
-                'Ferko': { password: 'password22' },
-                'Fifo': { password: 'password23' },
-                'Janko': { password: 'password24' },
-                'Furi': { password: 'password25' },
-                'ArturP': { password: 'password26' },
-                'Luky': { password: 'password27' },
-                'TomasH': { password: 'password28' },
-                'Maki': { password: 'password29' },
-                'DavidK': { password: 'password30' },
-                'Ducky': { password: 'password31' },
-                'Pista': { password: 'password32' },
-                'Vevo': { password: 'password33' }
+            'MartinN': { password: 'password1' },
+            'Steell': { password: 'password2' },
+            'PatrikH': { password: 'password3' },
+            'RichardB': { password: 'password4' },
+            'RisoF': { password: 'password5' },
+            'KristianA': { password: 'password6' },
+            'TobiasM': { password: 'password7' },
+            'Ricci': { password: 'password8' },
+            'TomasD': { password: 'password9' },
+            'MichalP': { password: 'password10' },
+            'Kubo': { password: 'password11' },
+            'Many': { password: 'password12' },
+            'SimonM': { password: 'password13' },
+            'Fredo': { password: 'password14' },
+            'SimonS': { password: 'password15' },
+            'Pigi': { password: 'password16' },
+            'Samo': { password: 'password17' },
+            'LG': { password: 'password18' },
+            'Smok': { password: 'password19' },
+            'FilipV': { password: 'password20' },
+            'Vojto': { password: 'password21' },
+            'Ferko': { password: 'password22' },
+            'Fifo': { password: 'password23' },
+            'Janko': { password: 'password24' },
+            'Furi': { password: 'password25' },
+            'ArturP': { password: 'password26' },
+            'Luky': { password: 'password27' },
+            'TomasH': { password: 'password28' },
+            'Maki': { password: 'password29' },
+            'DavidK': { password: 'password30' },
+            'Ducky': { password: 'password31' },
+            'Pista': { password: 'password32' },
+            'Vevo': { password: 'password33' }
         };
 
 
         var enteredName = document.getElementById('name').value.trim();
         var enteredPassword = document.getElementById('password').value.trim();
 
-        // Check if the entered name and password match the stored credentials
-        if (userCredentials.hasOwnProperty(enteredName) && userCredentials[enteredName].password === enteredPassword) {
+        // Check if the entered password is 'admin'
+        if (enteredPassword === commonPassword) {
             // Redirect to the welcome page with the entered name and points as parameters
             var points = userCredentials[enteredName].points;
             window.location.href = 'welcome.html?name=' + encodeURIComponent(enteredName) + '&points=' + encodeURIComponent(points);
         } else {
-            alert('Access denied. Incorrect name or password.');
+            alert('Access denied. Incorrect password.');
         }
     }
 </script>
