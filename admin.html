@@ -8,6 +8,18 @@
 </head>
 <body>
 
+<h1>Pridanie nového používateľa</h1>
+
+<form onsubmit="addUser(); return false;">
+  <label for="newUserName">Meno nového používateľa:</label>
+  <input type="text" id="newUserName" required>
+  <label for="newUserPassword">Heslo nového používateľa:</label>
+  <input type="password" id="newUserPassword" required>
+  <label for="newUserPoints">Počiatočné body:</label>
+  <input type="number" id="newUserPoints" required>
+  <button type="submit">Pridať</button>
+</form>
+
 <h1>Nastavenie počiatočných bodov pre používateľa</h1>
 
 <form onsubmit="setInitialPoints(); return false;">
@@ -81,6 +93,22 @@
       alert('Objednávka ' + deletedItemName + ' pre používateľa ' + deleteOrderUserName + ' nebola nájdená.');
     } else {
       alert('Používateľ ' + deleteOrderUserName + ' neexistuje.');
+    }
+  }
+  function addUser() {
+    var newUserName = document.getElementById('newUserName').value.trim();
+    var newUserPassword = document.getElementById('newUserPassword').value.trim();
+    var newUserPoints = parseInt(document.getElementById('newUserPoints').value);
+
+    // Skontroluj, či používateľ už neexistuje
+    if (localStorage.getItem(newUserName) === null) {
+      // Pridaj nového používateľa do lokálneho úložiska
+      localStorage.setItem(newUserName, newUserPoints.toString());
+      // Pridaj heslo nového používateľa do lokálneho úložiska
+      localStorage.setItem(newUserName + '_password', newUserPassword);
+      alert('Nový používateľ ' + newUserName + ' bol pridaný s počiatočnými bodmi ' + newUserPoints + ' a heslom.');
+    } else {
+      alert('Používateľ ' + newUserName + ' už existuje.');
     }
   }
 </script>
