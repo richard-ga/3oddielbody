@@ -7,17 +7,16 @@
   <title>Admin Page</title>
 </head>
 <body>
-
 <h1>Pridanie nového používateľa</h1>
 
-<form onsubmit="addUser(); return false;">
+<form onsubmit="addNewUser(); return false;">
   <label for="newUserName">Meno nového používateľa:</label>
   <input type="text" id="newUserName" required>
   <label for="newUserPassword">Heslo nového používateľa:</label>
   <input type="password" id="newUserPassword" required>
-  <label for="newUserPoints">Počiatočné body:</label>
+  <label for="newUserPoints">Počiatočné body nového používateľa:</label>
   <input type="number" id="newUserPoints" required>
-  <button type="submit">Pridať</button>
+  <button type="submit">Pridať používateľa</button>
 </form>
 
 <h1>Nastavenie počiatočných bodov pre používateľa</h1>
@@ -95,21 +94,60 @@
       alert('Používateľ ' + deleteOrderUserName + ' neexistuje.');
     }
   }
-  function addUser() {
+  function addNewUser() {
     var newUserName = document.getElementById('newUserName').value.trim();
     var newUserPassword = document.getElementById('newUserPassword').value.trim();
     var newUserPoints = parseInt(document.getElementById('newUserPoints').value);
 
-    // Skontroluj, či používateľ už neexistuje
-    if (localStorage.getItem(newUserName) === null) {
-      // Pridaj nového používateľa do lokálneho úložiska
-      localStorage.setItem(newUserName, newUserPoints.toString());
-      // Pridaj heslo nového používateľa do lokálneho úložiska
-      localStorage.setItem(newUserName + '_password', newUserPassword);
-      alert('Nový používateľ ' + newUserName + ' bol pridaný s počiatočnými bodmi ' + newUserPoints + ' a heslom.');
-    } else {
-      alert('Používateľ ' + newUserName + ' už existuje.');
+    // Define a mapping of names to credentials (password and points)
+    var userCredentials = {
+        'MartinN': { password: 'password1' },
+        'Steell': { password: 'password2' },
+        'PatrikH': { password: 'password3' },
+        'RichardB': { password: 'password4' },
+        'RisoF': { password: 'password5' },
+        'KristianA': { password: 'password6' },
+        'TobiasM': { password: 'password7' },
+        'Ricci': { password: 'password8' },
+        'TomasD': { password: 'password9' },
+        'MichalP': { password: 'password10' },
+        'Kubo': { password: 'password11' },
+        'Many': { password: 'password12' },
+        'SimonM': { password: 'password13' },
+        'Fredo': { password: 'password14' },
+        'SimonS': { password: 'password15' },
+        'Pigi': { password: 'password16' },
+        'Samo': { password: 'password17' },
+        'LG': { password: 'password18' },
+        'Smok': { password: 'password19' },
+        'FilipV': { password: 'password20' },
+        'Vojto': { password: 'password21' },
+        'Ferko': { password: 'password22' },
+        'Fifo': { password: 'password23' },
+        'Janko': { password: 'password24' },
+        'Furi': { password: 'password25' },
+        'ArturP': { password: 'password26' },
+        'Luky': { password: 'password27' },
+        'TomasH': { password: 'password28' },
+        'Maki': { password: 'password29' },
+        'DavidK': { password: 'password30' },
+        'Ducky': { password: 'password31' },
+        'Pista': { password: 'password32' },
+        'Vevo': { password: 'password33' }
+    };
+
+    // Check if the new user already exists
+    if (userCredentials.hasOwnProperty(newUserName)) {
+      alert('Používateľ s menom ' + newUserName + ' už existuje. Zvoľte iné meno.');
+      return;
     }
+
+    // Add the new user to the mapping
+    userCredentials[newUserName] = { password: newUserPassword, points: newUserPoints };
+
+    // Optionally, you can save the updated userCredentials to localStorage or a server
+
+    alert('Používateľ ' + newUserName + ' bol pridaný s počiatočnými bodmi ' + newUserPoints + '.');
   }
 </script>
 
